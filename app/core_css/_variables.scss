@@ -27,16 +27,22 @@ $base_line_height: 1.5;
 $grey--light: #FAFAFA;
 $grey: #CCCDC8;
 
-$blue: #58A1FF;
-$yellow: #FBC12C;
+$blue: #84A72E;
+$yellow: #405016;
 $dark-blue: #102E42;
 
 $green: #9AD25C;
 $red: #FC8276;
 
-$purple: #2E2B44;
-$purple--light: #464368;
-$purple--highlight: #858DF0;
+
+//$purple: #2E2B44;
+//$purple--light: #464368;
+//$purple--highlight: #858DF0;
+
+// thats fork
+$purple: #84A72E;
+$purple--light: #405016;
+$purple--highlight: #87C82D;
 
 $silver: #949da1;
 
@@ -44,7 +50,8 @@ $silver: #949da1;
 // Sometimes abstract terms are useful:
 
 $foreground:          $purple;
-$background:          #FDFDFD;
+$background:          #fafafa;
+$dark-background:     #232323;
 
 $focus_color:         #4fa1fd;
 $alert_color:         #fd9833;

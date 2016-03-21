@@ -5,9 +5,9 @@ var btcToSatoshi = require('hive-convert').btcToSatoshi
 var satoshiToBtc = require('hive-convert').satoshiToBtc
 
 function validateSend(wallet, to, btcValue, callback){
-  var amount = btcToSatoshi(btcValue)
-  var network = networks[wallet.networkName]
-  var tx = null
+  var amount = btcToSatoshi(btcValue);
+  var network = networks[wallet.networkName];
+  var tx = null;
 
   try {
     tx = wallet.createTx(to, amount)
@@ -32,10 +32,10 @@ function validateSend(wallet, to, btcValue, callback){
           "Taking transaction fee into account, we estimated that the max amount you can send is",
           "We have amended the value in the amount field for you"
         ].join('. ')
-        error = new Error(message)
+        error = new Error(message);
 
-        var sendableBalance = satoshiToBtc(amount - (e.needed - e.has))
-        error.interpolations = { sendableBalance: sendableBalance }
+        var sendableBalance = satoshiToBtc(amount - (e.needed - e.has));
+        error.interpolations = { sendableBalance: sendableBalance };
 
         return new callback(error)
       } else {
@@ -51,7 +51,7 @@ function validateSend(wallet, to, btcValue, callback){
 }
 
 function attemptToEmptyWallet(balance, amount, network){
-  return balance - network.feePerKb < amount && amount <= balance
+  return balance - network.feePerKb < amount && amount <= balance;
 }
 
-module.exports = validateSend
+module.exports = validateSend;

@@ -1,16 +1,15 @@
 'use strict';
 
-var PouchDB = require('pouchdb')
-var db = new PouchDB('hive-local')
+var PouchDB = require('pouchdb');
+var db = new PouchDB('wallet-dat');
 
-var credentials = "credentials"
+var credentials = "credentials";
 
 function saveEncrypedSeed(id, encryptedSeed, callback) {
   db.get(credentials, function(err, doc){
     if(doc) {
       return db.remove(doc, function(err){
         if(err) return callback(err);
-
         saveEncrypedSeed(id, encryptedSeed, callback)
       })
     }
@@ -19,7 +18,7 @@ function saveEncrypedSeed(id, encryptedSeed, callback) {
       _id: credentials,
       id: id,
       seed: encryptedSeed
-    }
+    };
     db.put(doc, callback)
   })
 }
@@ -43,9 +42,8 @@ function getPendingTxs(callback){
       }
       return callback(err);
     }
-
     callback(null, doc.txs)
-  })
+  });
 }
 
 function setPendingTxs(txs, callback) {
@@ -73,17 +71,17 @@ function savePendingTx(tx, processDoc, callback) {
       return callback(err)
     }
 
-    processDoc(doc)
+    processDoc(doc);
     db.put(doc, callback)
   })
 }
 
 
 module.exports = {
-  saveEncrypedSeed: saveEncrypedSeed,
+  saveEncryptedSeed: saveEncrypedSeed,
   getCredentials: getCredentials,
   deleteCredentials: deleteCredentials,
   getPendingTxs: getPendingTxs,
   setPendingTxs: setPendingTxs,
   addPendingTx: addPendingTx
-}
+};

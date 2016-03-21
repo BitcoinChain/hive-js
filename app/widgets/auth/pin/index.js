@@ -87,16 +87,16 @@ module.exports = function(prevPage, data){
     Hive.reset(function(){
       location.reload(false);
     })
-  })
+  });
 
   ractive.on('reset-pin', function() {
     Hive.resetPin(ractive.onSyncDone)
-  })
+  });
 
   ractive.on('back', function(){
-    if(prevPage) prevPage(data)
+    if(prevPage) prevPage(data);
     ractive.teardown()
-  })
+  });
 
   function getPin(){
     var pin = ractive.get('pin')

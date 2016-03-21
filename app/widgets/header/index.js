@@ -37,20 +37,25 @@ module.exports = function(el){
       if(err) return console.error(err);
       ractive.set('fiatCurrency', info.preferredCurrency)
     })
-  })
+  });
 
   emitter.on('wallet-ready', function(){
     ractive.set('bitcoinBalance', getWallet().getBalance())
-  })
+  });
 
   emitter.on('update-balance', function() {
     ractive.set('bitcoinBalance', getWallet().getBalance())
-  })
+  });
 
   ractive.on('toggle', function(){
     window.scrollTo(0, 0);
     emitter.emit('toggle-menu', !ractive.get('menuOpen'))
-  })
+  });
+
+  ractive.on('logout', function(event){
+    event.original.preventDefault();
+    window.location.reload();
+  });
 
   function toggleIcon(open){
     ractive.set('menuOpen', open)
@@ -66,17 +71,17 @@ module.exports = function(el){
   ractive.on('sync', function(event){
     event.original.preventDefault();
     if(!ractive.get('updating_transactions')) {
-      ractive.set('updating_transactions', true)
-      spinner.spin(refreshEl)
-      setTimeout(cancelSpinner, 30000)
+      ractive.set('updating_transactions', true);
+      spinner.spin(refreshEl);
+      setTimeout(cancelSpinner, 30000);
       sync(function(err, txs){
-        if(err) return showError(err)
-        cancelSpinner()
-        emitter.emit('update-balance')
+        if(err) return showError(err);
+        cancelSpinner();
+        emitter.emit('update-balance');
         emitter.emit('set-transactions', txs)
       })
     }
-  })
+  });
 
   ractive.on('toggle-currencies', function(){
     if(ractive.get('showFiat')) {
@@ -84,24 +89,25 @@ module.exports = function(el){
     } else {
       ractive.set('showFiat', true)
     }
-  })
+  });
 
   emitter.on('preferred-currency-changed', function(currency){
     ractive.set('fiatCurrency', currency)
-  })
+  });
 
   emitter.on('ticker', function(rates){
     ractive.set('exchangeRates', rates)
-  })
+  });
 
   function bitcoinToFiat(amount, exchangeRate) {
     if(amount == undefined || exchangeRate == undefined) return "N/A";
 
-    var btc = satoshiToBtc(amount)
+    var btc = satoshiToBtc(amount);
     return new Big(exchangeRate).times(btc).toFixed(2)
   }
 
-  ractive.toggleIcon = toggleIcon
+  ractive.toggleIcon = toggleIcon;
 
   return ractive
-}
+
+};

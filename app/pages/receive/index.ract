@@ -8,18 +8,3 @@
     </span>
   </div>
 </div>
-<div class="geo__label">
-{{^broadcasting}}
-  <h3 class="_title">{{translate("Waggle")}}</h3>
-{{/broadcasting}}
-{{#broadcasting}}
-  <h3 id="broadcast_text" class="_title animate__pulseFade">{{translate("Broadcasting your location...")}}</h3>
-{{/broadcasting}}
-<span class="_help" on-click="help">
-  {{>svg_help}}
-</span>
-</div>
-<div class="geo__box">
-  <span class="_btn {{#broadcasting}}is_broadcasting{{/broadcasting}}{{#connecting}}is_connecting{{/connecting}}" on-click="toggle-broadcast">{{translate(btn_message)}}</span>
-</div>
-

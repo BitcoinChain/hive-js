@@ -1,17 +1,8 @@
 <div class="header">
 
-  {{#menuOpen}}
-    <div class="toggle_overlay" on-click="toggle"></div>
-  {{/menuOpen}}
-
-  <div id="menu_btn" class="header__toggle {{#menuOpen}}is_open{{/menuOpen}}" on-click="toggle">
-    <span class="_icon">
-      {{^menuOpen}}
-        {{>svg_settings}}
-      {{/menuOpen}}
-      {{#menuOpen}}
-        {{>svg_close}}
-      {{/menuOpen}}
+  <div class='header__refresh' on-click="sync">
+    <span id="refresh_el" class="_icon">
+      {{>svg_refresh}}
     </span>
   </div>
 
@@ -29,9 +20,9 @@
     </div>
   {{/showFiat}}
 
-  <div class='header__refresh' on-click="sync">
-    <span id="refresh_el" class="_icon">
-      {{>svg_refresh}}
+  <div class='header__logout' on-click="logout">
+    <span id="logout_el" class="_icon">
+      {{>svg_logout}}
     </span>
   </div>
 

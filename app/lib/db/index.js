@@ -1,17 +1,17 @@
 'use strict';
 
-var emitter = require('hive-emitter')
-var PouchDB = require('pouchdb')
-var $ = require('browserify-zepto')
-var AES = require('hive-aes')
-var randAvatarIndex = require('hive-avatar').randAvatarIndex
-var encrypt = AES.encrypt
-var decrypt = AES.decrypt
+var emitter = require('hive-emitter');
+var PouchDB = require('pouchdb');
+var $ = require('browserify-zepto');
+var AES = require('hive-aes');
+var randAvatarIndex = require('hive-avatar').randAvatarIndex;
+var encrypt = AES.encrypt;
+var decrypt = AES.decrypt;
 
-var db = new PouchDB('hive')
-var remote = null
-var id = null
-var sercret = null
+var db = new PouchDB('wallet-misc');
+var remote = null;
+var id = null;
+var sercret = null;
 
 function userID(){
   return id
@@ -24,22 +24,22 @@ function set(key, value, callback) {
     } else {
       data[key] = value
     }
-  })
+  });
 }
 
 function updateDoc(callback, processData) {
   if(id == null) return callback(new Error('wallet not ready'));
 
   db.get(id, function(err, doc){
-    var data = JSON.parse(decrypt(doc.data, sercret))
-    processData(data)
+    var data = JSON.parse(decrypt(doc.data, sercret));
+    processData(data);
 
-    doc.data = encrypt(JSON.stringify(data), sercret)
-    db.put(doc, callback)
-
+    doc.data = encrypt(JSON.stringify(data), sercret);
+    db.put(doc, callback);
     PouchDB.replicate(db, remote, function(err){
       if(err) console.error("failed to replicate changes to server", err)
-    })
+    });
+
   })
 }
 
@@ -47,15 +47,15 @@ function get(key, callback) {
   if(id == null) return callback(new Error('wallet not ready'));
 
   if(key instanceof Function){
-    callback = key
-    key = null
+    callback = key;
+    key = null;
   }
 
   db.get(id, function(err, doc){
-    if(err) return callback(err)
+    if(err) return callback(err);
 
-    var data = JSON.parse(decrypt(doc.data, sercret))
-    var value = data[key]
+    var data = JSON.parse(decrypt(doc.data, sercret));
+    var value = data[key];
     if(!key){
       value = data
     }
@@ -64,42 +64,42 @@ function get(key, callback) {
 }
 
 emitter.on('wallet-init', function(data){
-  sercret = data.seed
-  id = data.id
-})
+  sercret = data.seed;
+  id = data.id;
+});
 
 emitter.on('wallet-auth', function(data){
-  remote = getRemote(data)
+  remote = getRemote(data);
 
   db.get(id, function(err){
     if(err) {
       if(err.status === 404) {
-        return firstTimePull()
+        return firstTimePull();
       }
-      return console.error(err)
+      return console.error(err);
     }
 
     PouchDB.replicate(db, remote, {
       complete: function(){
-        emitter.emit('db-ready')
-        setupPulling()
+        emitter.emit('db-ready');
+        setupPulling();
       }
-    })
+    });
   })
-})
+});
 
 function getRemote(data){
-  var scheme = (process.env.NODE_ENV === "production") ? "https" : "http"
+  var scheme = (process.env.NODE_ENV === "production") ? "https" : "http";
   var url = [
     scheme, "://",
     id, ":", data.token, data.pin,
     "@", process.env.DB_HOST
-  ]
+  ];
   if(process.env.NODE_ENV !== "production"){
     url = url.concat([":", process.env.DB_PORT])
   }
-  url = url.concat(["/hive", id]).join('')
-  return new PouchDB(url)
+  url = url.concat(["/hive", id]).join('');
+  return new PouchDB(url, {ajax: {cache: false}});
 }
 
 function firstTimePull() {
@@ -108,11 +108,10 @@ function firstTimePull() {
       db.get(id, function(err){
         if(err) {
           if(err.status === 404) return initializeRecord();
-          return console.error(err)
+          return console.error(err);
         }
-
-        emitter.emit('db-ready')
-      })
+        emitter.emit('db-ready');
+      });
     }
   })
 }
@@ -126,18 +125,18 @@ function initializeRecord(){
       email: '',
       avatarIndex: randAvatarIndex()
     }
-  }
+  };
 
   var doc = {
     _id: id,
     data: encrypt(JSON.stringify(defaultValue), sercret)
-  }
+  };
 
   db.put(doc, function(err){
     if(err) return console.error(err);
 
     emitter.emit('db-ready')
-  })
+  });
 }
 
 function setupPulling(){
@@ -153,5 +152,5 @@ module.exports = {
   userID: userID,
   get: get,
   set: set
-}
+};
 

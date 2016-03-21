@@ -1,7 +1,7 @@
 'use strict';
 
-var xhr = require('hive-xhr')
-var uriRoot = window.location.origin
+var xhr = require('hive-xhr');
+var uriRoot = window.location.origin;
 
 function register(wallet_id, pin, callback) {
   postCredentials('register', wallet_id, pin, callback)
@@ -17,7 +17,7 @@ function exist(wallet_id, callback) {
     method: 'GET'
   }, function(err, resp, body){
     if(resp.statusCode !== 200) {
-      console.error(body)
+      console.error(body);
       return callback(JSON.parse(body))
     }
     callback(null, body === 'true')
@@ -44,7 +44,7 @@ function resetPin(wallet_id, callback) {
     uri: uriRoot + "/reset?wallet_id=" + wallet_id,
     method: 'GET'
   }, function(err, resp, body){
-    var content = JSON.parse(body)
+    var content = JSON.parse(body);
     callback(content == null ? 'PIN reset failed' : content.error)
   })
 }
@@ -57,7 +57,7 @@ function postCredentials(endpoint, wallet_id, pin, callback) {
     body: "wallet_id=" + wallet_id + "&pin=" + pin
   }, function(err, resp, body){
     if(resp.statusCode !== 200) {
-      console.error(body)
+      console.error(body);
       return callback(JSON.parse(body))
     }
     callback(null, body)
@@ -70,4 +70,4 @@ module.exports = {
   exist: exist,
   disablePin: disablePin,
   resetPin: resetPin
-}
+};

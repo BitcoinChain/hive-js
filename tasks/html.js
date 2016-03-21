@@ -1,20 +1,21 @@
-var fs = require('fs')
-var copy = require('./util').copy
-var isProduction = require('./util').isProduction
+var fs = require('fs');
+var copy = require('./util').copy;
+var isProduction = require('./util').isProduction;
 
 function html(callback) {
-  var cb = isProduction() ? callback : injectLivereloadScript(callback)
-  copy('./app/index.html', './build/', cb)
+  //var cb = isProduction() ? callback : injectLivereloadScript(callback);
+  var cb = callback;
+  copy('./app/index.html', './build/', cb);
 }
 
 function injectLivereloadScript(callback) {
   return function(){
-    var filename = './build/index.html'
+    var filename = './build/index.html';
     fs.readFile(filename, { encoding: 'utf8' }, function(err, index){
       if(err) return callback(err);
 
-      var replacement = '<script src="http://127.0.0.1:35729/livereload.js"></script>\n</body>'
-      fs.writeFile(filename, index.replace('</body>', replacement), callback)
+      var replacement = '<script src="http://127.0.0.1:35729/livereload.js"></script>\n</body>';
+      fs.writeFile(filename, index.replace('</body>', replacement), callback);
     })
   }
 }

@@ -7,13 +7,13 @@ function formatEmail(email){
 }
 
 function emailToAvatar(email){
-  email = formatEmail(email)
+  email = formatEmail(email);
 
   return [
     'https://www.gravatar.com/avatar/',
     crypto.createHash('md5').update(email).digest('hex'),
     '?size=200'
-  ].join('')
+  ].join('');
 }
 
 function randAvatarIndex(){
@@ -27,8 +27,13 @@ function getAvatarByIndex(index) {
 function getAvatar(email, avatarIndex){
   if(!blank(email)){
     return emailToAvatar(email)
+  } else {
+      return [
+          'https://www.gravatar.com/avatar/',
+          '?size=200&d=identicon'
+      ].join('');
   }
-  return getAvatarByIndex(avatarIndex)
+  //return getAvatarByIndex(avatarIndex)
 }
 
 function blank(str) {

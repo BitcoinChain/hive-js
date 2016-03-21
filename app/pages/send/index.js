@@ -9,8 +9,8 @@ var currencies = require('hive-ticker-api').currencies
 var toFixedFloor = require('hive-convert').toFixedFloor
 var showError = require('hive-modal-flash').showError
 var showInfo = require('hive-modal-flash').showInfo
-var showConfirmation = require('hive-modal-confirm-send')
-var validateSend = require('hive-wallet').validateSend
+var showConfirmation = require('hive-modal-confirm-send');
+var validateSend = require('hive-wallet').validateSend;
 
 module.exports = function(el){
   var ractive = new Ractive({
@@ -20,25 +20,25 @@ module.exports = function(el){
       currencies: currencies,
       exchangeRates: {}
     }
-  })
+  });
 
   emitter.on('clear-send-form', function(){
     ractive.set('to', '')
     ractive.set('value', '')
     ractive.set('fiatValue', '')
-  })
+  });
 
   emitter.on('prefill-wallet', function(address) {
     ractive.set('to', address)
-  })
+  });
 
-  ractive.on('open-geo', function(){
-    var data = {
-      overlay: 'geo',
-      context: 'send'
-    }
-    emitter.emit('open-overlay', data)
-  })
+  //ractive.on('open-geo', function(){
+  //  var data = {
+  //    overlay: 'geo',
+  //    context: 'send'
+  //  }
+  //  emitter.emit('open-overlay', data)
+  //})
 
   emitter.on('send-confirm-open', function() {
     ractive.set('validating', false)
@@ -65,7 +65,7 @@ module.exports = function(el){
         fee: fee
       })
     })
-  })
+  });
 
   emitter.on('wallet-ready', function(){
     ractive.set('denomination', getWallet().denomination)

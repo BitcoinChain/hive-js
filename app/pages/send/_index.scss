@@ -22,7 +22,6 @@
     cursor: pointer;
     display: block;
     flex: 1;
-    margin-right: 10px;
 
     @include breakpoint(portrait) {
       font-size: 20px;
@@ -65,7 +64,7 @@
     @extend .generic_box;
     @extend .jigsaw-light;
     padding-left: 10px;
-    padding-right: 38px;
+    padding-right: 10px;
     border-radius: 2px;
 
     height: auto;

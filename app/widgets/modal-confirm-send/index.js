@@ -41,20 +41,20 @@ function open(data){
     wallet.sendTx(tx, function (err){
       if(err) return handleTransactionError(err);
 
-      ractive.set('confirmation', false)
-      ractive.set('success', true)
+      ractive.set('confirmation', false);
+      ractive.set('success', true);
 
       // update balance & tx history
-      emitter.emit('wallet-ready')
-      emitter.emit('append-transactions', [parseTx(wallet, tx)])
+      emitter.emit('wallet-ready');
+      emitter.emit('append-transactions', [parseTx(wallet, tx)]);
     })
-  })
+  });
 
   ractive.on('open-support', function(){
     ractive.fire('cancel')
     var message = ractive.data.translate("Please describe what happened above. Below are network error logs that could help us identify your issue.")
     openSupportModal({description: "\n----\n" + message + "\n\n" + ractive.get('error')})
-  })
+  });
 
 
   function handleTransactionError(err) {
@@ -65,4 +65,4 @@ function open(data){
   return ractive
 }
 
-module.exports = open
+module.exports = open;

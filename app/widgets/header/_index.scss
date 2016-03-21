@@ -94,9 +94,30 @@
   right: 0;
 }
 
-.header__refresh {
+.header__logout {
   @extend .icon_atom;
   padding-right: 10px;
+
+  @include breakpoint(portrait) {
+    width: 100px;
+    padding-top: 20px;
+  }
+  ._icon {
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 0 auto;
+
+    @include breakpoint(portrait) {
+      width: 35px;
+      height: 35px;
+    }
+  }
+}
+
+.header__refresh {
+  @extend .icon_atom;
+  padding-left: 10px;
 
   @include breakpoint(portrait) {
     width: 100px;

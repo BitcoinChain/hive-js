@@ -4,7 +4,7 @@ var Ractive = require('hive-ractive')
 var emitter = require('hive-emitter')
 var openSupportModal = require('hive-modal-support')
 var Dropdown = require('hive-transitions/dropdown.js')
-var initAccount = require('hive-account-details')
+var initAccount = require('hive-account-details');
 
 module.exports = function(el){
   var ractive = new Ractive({
@@ -12,15 +12,10 @@ module.exports = function(el){
     template: require('./index.ract').template
   })
 
-  initAccount(ractive.nodes['account-details'])
+  initAccount(ractive.nodes['account-details']);
 
   ractive.on('open-support', function(){
     openSupportModal()
-  })
-
-  ractive.on('logout', function(event){
-    event.original.preventDefault()
-    window.location.reload()
   })
 
   emitter.on('toggle-menu', function(open) {

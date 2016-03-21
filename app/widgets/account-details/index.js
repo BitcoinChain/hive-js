@@ -70,32 +70,32 @@ module.exports = function init(el) {
   ractive.on('submit-details', function(){
     if(ractive.get('animating')) return;
 
-    var details = ractive.get('user')
+    var details = ractive.get('user');
 
     if(blank(details.firstName)) {
       return showError({message: "A name is required to set your profile on Hive"})
     }
 
     if(blank(details.email) && details.avatarIndex == undefined) {
-      details.avatarIndex = Avatar.randAvatarIndex()
+      details.avatarIndex = Avatar.randAvatarIndex();
     }
 
     db.set('userInfo', details, function(err, response){
-      if(err) return handleUserError()
+      if(err) return handleUserError();
 
-      ractive.set('user', details)
-      setAvatar()
+      ractive.set('user', details);
+      setAvatar();
 
       Profile.hide($editEl, ractive, function(){
         Profile.show($previewEl, ractive)
-      })
-    })
-  })
+      });
+    });
+  });
 
   function setAvatar(){
     var avatar = Avatar.getAvatar(ractive.get('user.email'),
-                                  ractive.get('user.avatarIndex'))
-    var avatarEl = ractive.nodes['details-preview'].querySelector('.settings__avatar')
+                                  ractive.get('user.avatarIndex'));
+    var avatarEl = ractive.nodes['details-preview'].querySelector('.settings__avatar');
     avatarEl.style.setProperty('background-image', "url('" + avatar + "')")
   }
 
